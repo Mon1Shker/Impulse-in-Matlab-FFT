@@ -1,0 +1,48 @@
+%% Impulse 1
+n = 2^13; %number of grid point
+twidth = 3; %width of time window [ps]
+c = 299792458 * 1e9/1e12; %speed of light[nm/ps]
+wavelength = 1900; %reference wavelength[nm]
+w0 = (2.0 * pi * c) / wavelength; %reference frequency[2*pi*THz]
+T = linspace(-twidth/2, twidth/2, n); %time grid
+power = 100;
+t0 = 0.1;%impulse duration [ps]
+A = sqrt(power) * exp(-T.^2/(t0));%impulse function (Gauss)
+figure; plot(T,A) 
+title('Impulse 2')
+dT = T(2) - T(1);%grid parameter
+V = 2 * pi * (-n/2:n/2-1)'/(n * dT); %frequency grid
+AW = fft(A);%colculate FFT of A
+figure; plot(V, fftshift(abs(AW)), 'Color', 'red')
+title('Impulse 1 FFT')
+
+
+%% Impulse 2
+twidth = 30; %width of time window [ps]
+T = linspace(-twidth/2, twidth/2, n); %time grid
+power = 200;
+t0 = 1;%impulse duration [ps]
+A = sqrt(power) * exp(-T.^2/(t0));%impulse function 
+figure; plot(T,A)
+title('Impulse 2')
+dT = T(2) - T(1);%grid parameter
+V = 2 * pi * (-n/2:n/2-1)'/(n * dT); %frequency grid
+AW = fft(A);%colculate FFT of A
+figure; plot(V, fftshift(abs(AW)), 'Color', 'red')
+title('Impulse 2 FFT')
+
+
+%% Impulse 3
+twidth = 300; %width of time window [ps]
+T = linspace(-twidth/2, twidth/2, n); %time grid
+power = 100;
+t0 = 10;%impulse duration
+A = sqrt(power) * sech(T/t0);%impulse function
+figure; plot(T,A)
+title('Impulse 3')
+T = logspace(-twidth/2, twidth/2, n); %time grid
+dT = T(2) - T(1);%grid parameter
+V = 2 * pi * (-n/2:n/2-1)'/(n * dT); %frequency grid
+AW = fft(A);%colculate FFT of A
+figure; plot(V, fftshift(abs(AW)), 'Color', 'red')
+title('Impulse 3 FFT')
